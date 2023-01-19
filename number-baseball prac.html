@@ -6,6 +6,7 @@
 </head>
 
 <body>
+  <div id="count"></div>
   <form id="form">
     <input type="text" id="input">
     <button>확인</button>
@@ -15,6 +16,7 @@
   const $input = document.querySelector('#input')
   const $form = document.querySelector('#form')
   const $logs = document.querySelector('#logs')
+  const $count = document.querySelector('#count')
 
   const numbers = [];
   for (let n = 0; n < 9; n += 1) {
@@ -71,6 +73,11 @@
         }
       }
     }
+  
+    for (let n = 10; n > 0; n-=1) {
+      $count.textContent = '남은 횟수는 ' + n + '번입니다.';
+    }
+    
     $logs.append(`${value}: ${strike} 스트라이크 ${ball} 볼`, document.createElement('br'));
     tries.push(value);
   }); 
