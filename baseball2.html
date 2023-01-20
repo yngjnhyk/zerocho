@@ -6,8 +6,8 @@
 </head>
 
 <body>
-  <div id="count"></div>
   <form id="form">
+    <div id="count">기회는 <span id="countNum">10</span>번 입니다.</div>
     <input type="text" id="input">
     <button>확인</button>
   </form>
@@ -16,7 +16,8 @@
   const $input = document.querySelector('#input')
   const $form = document.querySelector('#form')
   const $logs = document.querySelector('#logs')
-  const $count = document.querySelector('#count')
+  const $countNum = document.querySelector('#countNum')
+  const $count = document.querySelector('#count')  
 
   const numbers = [];
   for (let n = 0; n < 9; n += 1) {
@@ -43,7 +44,9 @@
     }
     return true;
   }  // 검사하는 코드 
-
+  
+  let out = 0;
+  let countNum = 10; 
   $form.addEventListener('submit', (event) => {
     event.preventDefault();
     const value = $input.value;
@@ -56,7 +59,7 @@
       return;
     }
     if (tries.length >= 9) {
-      const message = document.createTextNode(`패배! 정답은 ${answer.join('')}`);
+      const message = document.createTextNode(`멍충~ 머엉추웅~~ 정답은 ${answer.join('')}`);
       $logs.appendChild(message);
       return;
     }
@@ -73,17 +76,28 @@
         }
       }
     }
-  
-    for (let n = 10; n > 0; n-=1) {
-      $count.textContent = '남은 횟수는 ' + n + '번입니다.';
+
+    if (strike === 0 && ball === 0) {
+      out++;
+      countNum--;
+
+      $logs.append('아웃!',document.createElement('br'));
+    } else {
+      countNum--;
+      $count.textContent = '남은 기회는 ' + countNum + ' 번 입니다.';
+      $logs.append(`${value}: ${strike} 스트라이크 ${ball} 볼`, document.createElement('br'));
     }
-    
-    $logs.append(`${value}: ${strike} 스트라이크 ${ball} 볼`, document.createElement('br'));
+    if (out === 3) {
+      const message = document.createTextNode(`3아웃!! 바이바이~~ 정답은 ${answer.join('')}`)
+      $logs.appendChild(message);
+      return;
+    }
     tries.push(value);
   }); 
   
 </script>
 </body>
+
 
 
 

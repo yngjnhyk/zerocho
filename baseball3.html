@@ -7,14 +7,34 @@
 
 <body>
   <form id="form">
+    <div id="count">기회는 <span id="countNum">10</span>번 입니다.</div>
     <input type="text" id="input">
     <button>확인</button>
+  </form>
+  <div>
+    <span>memo</span>
+    <input type="text" style="width: 18px;">
+    <input type="text" style="width: 18px;">
+    <input type="text" style="width: 18px;">
+    <input type="text" style="width: 18px;">
+  </div>
+  <br>
+  <form method="POST" id="checkboxes">
+    <p><label><input type="checkbox" name="nb[]" value="01"> 01</label></p>
+    <p><label><input type="checkbox" name="nb[]" value="02"> 02</label></p>
+    <p><label><input type="checkbox" name="nb[]" value="03"> 03</label></p>
+    <p><label><input type="checkbox" name="nb[]" value="04"> 04</label></p>
+    <p><label><input type="checkbox" name="nb[]" value="05"> 05</label></p>
+    <p><input type="submit" value="Submit"></p>
   </form>
   <div id="logs"></div>
 <script>
   const $input = document.querySelector('#input')
   const $form = document.querySelector('#form')
   const $logs = document.querySelector('#logs')
+  const $countNum = document.querySelector('#countNum')
+  const $count = document.querySelector('#count')
+  const $checkboxes = document.querySelector('#checkboxes')  
 
   const numbers = [];
   for (let n = 0; n < 9; n += 1) {
@@ -41,8 +61,9 @@
     }
     return true;
   }  // 검사하는 코드 
-  
-  let out =0;
+
+  let out = 0;
+  let countNum = 10; 
   $form.addEventListener('submit', (event) => {
     event.preventDefault();
     const value = $input.value;
@@ -72,10 +93,15 @@
         }
       }
     }
+
     if (strike === 0 && ball === 0) {
       out++;
+      countNum--;
+
       $logs.append('아웃!',document.createElement('br'));
     } else {
+      countNum--;
+      $count.textContent = '남은 기회는 ' + countNum + ' 번 입니다.';
       $logs.append(`${value}: ${strike} 스트라이크 ${ball} 볼`, document.createElement('br'));
     }
     if (out === 3) {
@@ -84,10 +110,14 @@
       return;
     }
     tries.push(value);
-  }); 
-  
+  });
+
+  $checkboxes.addEventListener('submit', () => {
+    event.preventDefault();
+  });  
 </script>
 </body>
+
 
 
 
