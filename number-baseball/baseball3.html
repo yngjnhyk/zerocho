@@ -78,7 +78,7 @@
     if (answer.join('') === value) {
       $logs.textContent = '홈런! 정답은' + value + ' 입니다.';
       return;
-    }
+    } 
     if (tries.length >= 9) {
       const message = document.createTextNode(`멍충~ 머엉추웅~~ 정답은 ${answer.join('')}`);
       $logs.appendChild(message);
