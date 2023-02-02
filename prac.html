@@ -1,24 +1,24 @@
-<script>
-    document.querySelclector('#calculate').addEventListener('click', () => {
-        if (numTwo) {
-            switch (operator) {
-                case '+':
-                    $result.value = parseInt(numOne) + parseInt(numTwo);
-                    break;
-                case '-':
-                    $result.value = numOne - numTwo;
-                    break;
-                case '/':
-                    $result.value = numOne / numTwo;
-                    break;
-                case '*':
-                    $result.value = numOne * numTwo;
-                    break;
-                default:
-                    break;
-            }
-        } else {
-            alert('숫자를 먼저 입력하세요.');
-        }
-    });
-</script>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    const { body } = document;
+    
+    for (i = 1; i <= 5; i++) {
+      const $tr = document.createElement('tr');
+      const cells = [];
+      for (j = 1; j <= 4; j++) {
+        const $td = document.createElement('td');
+        cells.push($td);
+      }
+    }
+  </script>
+</body>
+
+</html>
