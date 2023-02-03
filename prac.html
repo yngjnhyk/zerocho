@@ -1,24 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
+<header>
+  <div>
+    <button>클릭</button>
+  </div>
+</header>
+<script>
+  $header = document.querySelector('header');
 
-<head>
-  <meta charset="UTF-8">
-  <title>Document</title>
-</head>
+  const buttonAlert = (event) => { alert('hello, event bubbling');}
 
-<body>
-  <script>
-    const { body } = document;
-    
-    for (i = 1; i <= 5; i++) {
-      const $tr = document.createElement('tr');
-      const cells = [];
-      for (j = 1; j <= 4; j++) {
-        const $td = document.createElement('td');
-        cells.push($td);
-      }
-    }
-  </script>
-</body>
-
-</html>
+  $header.addEventListener('click', buttonAlert);
+</script>

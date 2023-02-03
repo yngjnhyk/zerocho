@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <title>tic-tac-toe</title>
-  <style> 
+  <style>
     table {
       border-collapse: collapse;
     }
@@ -25,33 +25,89 @@
     const $result = document.createElement('div');
     const rows = [];
     let turn = 'O';
-    
-    for (let i=1; i<=3; i++) {
-      const $tr = document.createElement('tr');
-      const cells = [];
-      for (let j=1; j<=3; j++) {
-        const $td = document.createElement('td');
-        cells.push($td);
-        $tr.appendChild($td);
-        $td.addEventListener('click', (event) => {
-          // 칸에 글자가 있나?
-          if (event.target.textContent) return;
-          event.target.textContent = turn;
-          // 승부 확인
-          if (turn === 'O') {
-            turn = 'X';
-          } else if (turn === 'X') {
-            turn = 'O';
+
+
+    const checkWinner = (target) => {
+      let rowIndex;
+      let cellIndex;
+      rows.forEach((row, ri) => {
+        row.forEach((cell, ci) => {
+          if (cell === target) {
+            rowIndex = ri;
+            cellIndex = ci;
           }
         });
+      });
+      // 세 칸 다 채워졌나?
+      let hasWinner = false;
+      // 가로줄 검사
+      if (
+        rows[rowIndex][0].textContent === turn &&
+        rows[rowIndex][1].textContent === turn &&
+        rows[rowIndex][2].textContent === turn
+      ) {
+        hasWinner = true;
+      }
+      // 세로줄 검사
+      if (
+        rows[0][cellIndex].textContent === turn &&
+        rows[1][cellIndex].textContent === turn &&
+        rows[2][cellIndex].textContent === turn
+      ) {
+        hasWinner = true;
+      }
+      // 대각선 검사
+      if (
+        rows[0][0].textContent === turn &&
+        rows[1][1].textContent === turn &&
+        rows[2][2].textContent === turn
+      ) {
+        hasWinner = true;
+      }
+      if (
+        rows[0][2].textContent === turn &&
+        rows[1][1].textContent === turn &&
+        rows[2][0].textContent === turn
+      ) {
+        hasWinner = true;
+      }
+      return hasWinner;
+    };
+
+    const callback = (event) => {
+      if (event.target.textContent != '') {  // 칸이 이미 채워져 있는가?
+        console.log('빈 칸이 아닙니다.');
+        return;
+      }  // 빈칸이면
+      console.log('빈 칸입니다.');
+      event.target.textContent = turn;
+      // 승부 판단하기
+      checkWinner(event.target);
+
+      if (turn === 'O') {
+        turn = 'X';
+      } else if (turn === 'X') {
+        turn = 'O';
+      }  // 다음과 같이 줄일 수 있습니다. turn = turn === 'O' ? 'X' : 'O'; 
+    };
+
+
+    for (let i = 1; i <= 3; i++) {
+      const $tr = document.createElement('tr');
+      const cells = [];
+      for (let j = 1; j <= 3; j++) {
+        const $td = document.createElement('td');
+        cells.push($td);
         $tr.append($td);
       }
       rows.push(cells);
       $table.appendChild($tr);
     }
+    $table.addEventListener('click', callback);
     body.append($table);
     body.append($result);
+
   </script>
 </body>
 
-</html> 
+</html>
