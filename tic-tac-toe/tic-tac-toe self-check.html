@@ -30,7 +30,7 @@
     const checkWinner = (target) => {
       const rowIndex = target.parentNode.rowIndex;
       const cellIndex = target.cellIndex;
-   
+
 
       // 세 칸 다 채워졌나?
       let hasWinner = false;
@@ -67,46 +67,63 @@
       }
       return hasWinner;
     };
-
-    const callback = (event) => {
-      if (event.target.textContent != '') {  // 칸이 이미 채워져 있는가?
-        console.log('빈 칸이 아닙니다.');
-        return;
-      }  // 빈칸이면
-      console.log('빈 칸입니다.');
-      event.target.textContent = turn;
-      // 승부 판단하기
-      const hasWinner = checkWinner(event.target);
+    const checkWinnerNDraw = (target) => {
+      const hasWinner = checkWinner(target);
+      // 승자가 있으면
       if (hasWinner) {
-        $result.textContent = `${turn}님이 승리하셨습니다.`
+        $result.textContent = `${turn}님이 승리하셨습니다.`;
         $table.removeEventListener('click', callback);
         return;
-      };
-      // 무승부 판단하기
+      }
+      // 승자가 없으면
       const draw = rows.flat().every((cell) => cell.textContent);
       if (draw) {
         $result.textContent = '무승부';
         return;
       }
-      if (turn === 'O') {
-        turn = 'X';
-      } else if (turn === 'X') {
-        turn = 'O';
-      }  // 다음과 같이 줄일 수 있습니다. turn = turn === 'O' ? 'X' : 'O'; 
+      turn = turn === 'X' ? 'O' : 'X';
     };
-
-
-    for (let i = 1; i <= 3; i++) {
-      const $tr = document.createElement('tr');
-      const cells = [];
-      for (let j = 1; j <= 3; j++) {
-        const $td = document.createElement('td');
-        cells.push($td);
-        $tr.append($td);
+    
+    let clickable = true;
+    // clickable 이 false 면 클릭하지 못하게 해라.
+    const callback = (event) => {
+      if (!clickable) {
+        return;
       }
-      rows.push(cells);
-      $table.appendChild($tr);
+      if (event.target.textContent != '') {  // 칸이 이미 채워져 있는가?
+        console.log('빈 칸이 아닙니다.');
+        return;
+      }  
+      // 빈칸이면
+      console.log('빈 칸입니다.');
+      event.target.textContent = turn;
+      // 승부 판단하기
+      checkWinnerNDraw(event.target);
+
+      // 컴퓨터 차례
+      if (turn === 'X') {
+        clickable = false;
+        setTimeout(() => {
+          const emptyCells = rows.flat().filter((v) => !v.textContent);
+          const randomCell = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+          randomCell.textContent = 'X';
+          checkWinnerNDraw(event.target);
+          clickable = true;
+        }, 1000);
+      }
     }
+    
+  for (let i = 1; i <= 3; i++) {
+    const $tr = document.createElement('tr');
+    const cells = [];
+    for (let j = 1; j <= 3; j++) {
+      const $td = document.createElement('td');
+      cells.push($td);
+      $tr.append($td);
+    }
+    rows.push(cells);
+    $table.appendChild($tr);
+  }
     $table.addEventListener('click', callback);
     body.append($table);
     body.append($result);
