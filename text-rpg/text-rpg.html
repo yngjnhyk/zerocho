@@ -8,7 +8,7 @@
 
 <body>
   <form id="start-screen">
-    <input id="name-input" placeholder="주인공 이름을 입력하세요."/>
+    <input id="name-input" placeholder="주인공 이름을 입력하세요." />
     <button id="start">시작</button>
   </form>
   <div id="screen">
@@ -53,7 +53,7 @@
     const $monsterHp = document.querySelector('#monster-hp');
     const $monsterXp = document.querySelector('#monster-xp');
     const $monsterAtt = document.querySelector('#monster-att');
-    const $message= document.querySelector('#hero-message');
+    const $message = document.querySelector('#message');
 
     const hero = {
       name: '',
@@ -62,6 +62,14 @@
       hp: 100,
       xp: 0,
       att: 10,
+      attack(monster) {
+        monster.hp -= this.att;
+        this.hp -= monster.att;
+      },
+      heal(monster) {
+        this.hp += 20;
+        this.hp -= monster.att;
+      },
     };
     let monster = null;
     const monsterList = [
@@ -79,7 +87,7 @@
       $heroLevel.textContent = `Lev.${hero.lev}`;
       $heroHp.textContent = `HP: ${hero.hp}/${hero.maxHp}`;
       $heroXp.textContent = `XP: ${hero.xp}/${15 * hero.lev}`;
-      $heroAtt.textContent = `ATT: ${hero.att}`
+      $heroAtt.textContent = `ATT: ${hero.att}`;
       hero.name = name;
     });
 
@@ -94,11 +102,11 @@
         );
         monster.maxHp = monster.hp;
         $monsterName.textContent = monster.name;
-        $monsterHp.textContent = `HP: ${monster. hp}/${monster.maxHp}`;
+        $monsterHp.textContent = `HP: ${monster.hp}/${monster.maxHp}`;
         $monsterAtt.textContent = `ATT: ${monster.att}`;
 
         const monster1 = JSON.parse(JSON.stringify(monsterList[0]));
-        const monster2 = monsterList[0];ㅉ
+        const monster2 = monsterList[0];
         monster1.name = '새 몬스터';
         console.log(monsterList[0].name);  // 슬라임
         monster2.name = '새 몬스터';
@@ -108,19 +116,23 @@
 
 
       } else if (input === '2') {  // 휴식
-        
+
       } else if (input === '3') {  // 종료
-        
+
       }
     });
 
     $battleMenu.addEventListener('submit', (event) => {
       const input = event.target['battle-menu'].value;
-      if (input === '1') {
+      if (input === '1') {  // 공격
+        hero.attack(monster);
+        monster.attack(hero);
+        $heroHp.textContent = `HP: ${hero.hp}/${hero.maxHp}`;
+        $monsterHp.textContent = `HP: ${monster.hp}/${monster.maxHp}`;
+        $message.textContent = `${hero.att}의 피해를 입히고, ${monster.att}의 피해를 받았습니다.`;
+      } else if (input === '2') {  // 회복
 
-      } else if (input === '2') {
-
-      } else if (input === '3') {
+      } else if (input === '3') {  // 도망
 
       }
     });
