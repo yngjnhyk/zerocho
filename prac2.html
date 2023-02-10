@@ -1,57 +1,51 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-  <meta charset="UTF-8">
-  <title>tic-tac-toe</title>
-  <style> 
-    table {
-      border-collapse: collapse;
+<script>
+  class Game {
+    constructor(name) {
+      this.monsetr = null;
+      this.hero = null;
+      this.monsterList = [
+        { name: '슬라임', hp: 25, att: 10, xp: 10 },
+        { name: '스켈레톤', hp: 50, att: 15, xp: 20 },
+        { name: '마왕', hp: 150, att: 35, xp: 50 },
+      ];
+      this.start();
     }
-
-    td {
-      border: 1px solid black;
-      width: 40px;
-      height: 40px;
-      text-align: center;
+    start() {
+      $gameMenu.addEventListener('submit', this.onGameMenuInput);
+      $battleMenu.addEventListener('submit', this.onBattleMenuInput);
+      this.changeScreen('game');
     }
-  </style>
-</head>
-
-<body>
-  <script>
-    const { body } = document;  // = const body = document.body;
-    const $table = document.createElement('table');
-    const $result = document.createElement('div');
-    const rows = [];
-    let turn = 'O';
-    
-    for (let i=1; i<=3; i++) {
-      const $tr = document.createElement('tr');
-      const cells = [];
-      for (let j=1; j<=3; j++) {
-        const $td = document.createElement('td');
-        cells.push($td);
-        $tr.appendChild($td);
-        $td.addEventListener('click', (event) => {
-          // 칸에 글자가 있나?
-          if (event.target.textContent) return;
-          event.target.textContent = turn;
-          // 승부 확인
-          if (turn === 'O') {
-            turn = 'X';
-          } else if (turn === 'X') {
-            turn = 'O';
-          }
-        });
-        $tr.append($td);
+    changeScreen(screen) {
+      if (screen === 'start') {
+        $startScreen.style.display = 'block';
+        $gameMenu.style.display = 'none';
+        $battleMenu.style.display = 'none';
+      } else if (screen = 'game') {
+        $startScreen.style.display = 'none';
+        $gameMenu.style.display = 'block';
+        $battleMenu.style.display = 'none';
+      } else if (screen = 'battle') {
+        $startScreen.style.display = 'none';
+        $gameMenu.style.display = 'none';
+        $battleMenu.style.display = 'block';
       }
-      rows.push(cells);
-      $table.appendChild($tr);
     }
-    body.append($table);
-    body.append($result);
-  </script>
-</body>
-
-</html>
+    onGameMenuInput = (event) => {
+      event.preventDefault();
+      const input = event.target['menu-input'].value;
+      if (input === '1') {  // 모험
+        this.changeScreen('battle');
+      } else if (input === 2) { /// 휴식
+      } else if (input === 3) { /// 종료
+      }
+    }
+    onBattleMenuInput = (event) => {
+      event.preventDefault();
+      const input = event.target['battle-input'].value;
+      if (input === '1') {  // 공격
+      } else if (input === 2) { /// 회복
+      } else if (input === 3) { /// 도망
+      }
+    }
+  }  
+</script>
