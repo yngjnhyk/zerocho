@@ -54,6 +54,8 @@
     const $monsterXp = document.querySelector('#monster-xp');
     const $monsterAtt = document.querySelector('#monster-att');
     const $message = document.querySelector('#message');
+    const $monsterStat = document.querySelector('#monster-stat');
+
 
     class Game {
       constructor(name) {
@@ -104,8 +106,12 @@
           );
           this.updateMonsterStat();
           this.showMessage(`야생의 ${this.monster.name}이 나타났다!`);
-        } else if (input === 2) { /// 휴식
-        } else if (input === 3) { /// 종료
+        } else if (input === '2') { /// 휴식
+          const { hero } = this;
+          hero.recover(hero);
+          this.updateHeroStat();
+          this.showMessage(`${hero.name}소환사님의 체력을 회복했습니다.`);
+        } else if (input === '3') { /// 종료
           this.quit();
         }
       }
@@ -130,8 +136,23 @@
           }
           this.updateHeroStat();
           this.updateMonsterStat();
-        } else if (input === 2) { /// 회복
-        } else if (input === 3) { /// 도망
+        } else if (input === '2') { /// 회복
+          const { hero, monster } = this;
+          hero.heal(monster);
+          this.showMessage(`20 의 체력을 회복하고, ${monster.att}의 데미지를 입었습니다.`);
+          if (hero.hp > hero.maxHp) {
+            hero.hp = hero.maxHp
+          } else if (hero.hp <= 0) {
+            this.showMessage(`${hero.lev} 레벨에서 전사. 새 주인공을 생성하세요`);
+            this.quit();
+          }  
+          this.updateHeroStat();
+        } else if (input === '3') { /// 도망
+          this.changeScreen('game');
+          this.showMessage(`${this.monster.name}으로부터 무사히 도망쳤습니다.`);
+          $monsterName.textContent = '';
+          $monsterHp.textContent = '';
+          $monsterAtt.textContent = '';
         }
       }
       updateHeroStat() {
@@ -203,6 +224,9 @@
           this.hp = this.maxHp;
           this.game.showMessage(`레벨 업! Lv.${this.lev}`);
         }
+      }
+      recover(target) {
+        target.hp = target.maxHp;
       }
     };
     class Monster {
