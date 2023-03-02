@@ -120,6 +120,7 @@
       const rowIndex = target.parentNode.rowIndex;
       const cellIndex = target.cellIndex;
       const cellData = data[rowIndex][cellIndex];
+
       if (cellData === CODE.MINE) {  // 지뢰라면,
         data[rowIndex][cellIndex] = CODE.QUESTION_MINE;  // 물음표 지뢰로
         target.className = 'question';
@@ -131,7 +132,7 @@
       } else if (cellData === CODE.FLAG_MINE) {  // 깃발 지뢰라면,
         data[rowIndex][cellIndex] = CODE.MINE;  // 지뢰로
         target.className = '';
-        // target.textContent = 'X';
+        target.textContent = '';
       } else if (cellData === CODE.NORMAL) {  // 닫힌 칸이면,
         data[rowIndex][cellIndex] = CODE.QUESTION;  // 물음표로
         target.className = 'question';
@@ -171,8 +172,8 @@
       target.textContent = count || '';
       target.className = 'opened';
       data[rowIndex][cellIndex] = count;
+      
       openCount++;
-      console.log(openCount);
       if (openCount === row * cell - mine) {
         const time = (new Date() - startTime) / 1000;
         clearInterval(interval);
