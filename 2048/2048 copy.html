@@ -136,11 +136,11 @@
     }
 
     function draw() {
+      // console.log(data)
       data.forEach((rowData, i) => {
+        // console.log(rowData, i)
         rowData.forEach((cellData, j) => {
-          // console.log(data)
-          console.log(rowData, i)
-          console.log(cellData, j)
+          // console.log(cellData, j)
           const $target = $table.children[i].children[j];
           // console.log($target);
           if (cellData > 0) {
@@ -156,14 +156,15 @@
 
     startGame();
 
+    
     // data = [
     //   [2, 2, 2, 2],
     //   [4, 4, 4, 4],
     //   [1024, 1024, 8, 8],
     //   [16, 16, 16, 16],
-    // ] 개발 편의를 위해
-
+    // ] //개발 편의를 위해
     draw();
+
 
     function moveCells(direction) {
       history.push({
@@ -178,6 +179,8 @@
               if (cellData) {
                 const currentRow = newData[i]
                 const prevData = currentRow[currentRow.length - 1];
+                // console.log(currentRow)
+                // console.log(prevData)
                 if (prevData === cellData) {  // 이전 값과 지금 값이 같으면
                   const score = parseInt($score.textContent);
                   $score.textContent = score + currentRow[currentRow.length - 1] * 2;
@@ -188,7 +191,6 @@
               }
             });
           });
-          console.log(newData);
           [1, 2, 3, 4].forEach((rowData, i) => {
             [1, 2, 3, 4].forEach((cellData, j) => {
               data[i][j] = Math.abs(newData[i][j]) || 0;
@@ -238,7 +240,6 @@
               }
             });
           });
-          console.log(newData);
           [1, 2, 3, 4].forEach((cellData, i) => {
             [1, 2, 3, 4].forEach((rowData, j) => {
               data[j][i] = Math.abs(newData[i][j]) || 0;
@@ -289,12 +290,16 @@
     window.addEventListener('keyup', (event) => {
       if (event.key === 'ArrowUp') {
         moveCells('up');
+        console.log('keyup', event);
       } else if (event.key === 'ArrowDown') {
         moveCells('down');
+        console.log('keydown', event);
       } else if (event.key === 'ArrowLeft') {
         moveCells('left');
+        console.log('keyleft', event);
       } else if (event.key === 'ArrowRight') {
         moveCells('right');
+        console.log('keyright', event);
       }
     });
 
