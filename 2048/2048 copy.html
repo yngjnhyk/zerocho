@@ -179,8 +179,8 @@
               if (cellData) {
                 const currentRow = newData[i]
                 const prevData = currentRow[currentRow.length - 1];
-                // console.log(currentRow)
-                // console.log(prevData)
+                console.log(currentRow)
+                console.log(prevData)
                 if (prevData === cellData) {  // 이전 값과 지금 값이 같으면
                   const score = parseInt($score.textContent);
                   $score.textContent = score + currentRow[currentRow.length - 1] * 2;
@@ -290,16 +290,12 @@
     window.addEventListener('keyup', (event) => {
       if (event.key === 'ArrowUp') {
         moveCells('up');
-        console.log('keyup', event);
       } else if (event.key === 'ArrowDown') {
         moveCells('down');
-        console.log('keydown', event);
       } else if (event.key === 'ArrowLeft') {
         moveCells('left');
-        console.log('keyleft', event);
       } else if (event.key === 'ArrowRight') {
         moveCells('right');
-        console.log('keyright', event);
       }
     });
 
