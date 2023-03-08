@@ -174,9 +174,11 @@
     let gopherPercent = 0.3;
     let bombPercent = 0.5;
     function tick() {
+      console.log(holes);
       holes.forEach((hole, index) => {
         if (hole) return;  // 무언가 일어나고 있으면 return
         const randomValue = Math.random();
+        console.log(randomValue);
         if (randomValue < gopherPercent) {
           const $gopher = $$cells[index].querySelector('.gopher');
           holes[index] = setTimeout(() => {  // 1초 뒤에 사라짐
